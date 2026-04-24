@@ -5,7 +5,7 @@ function setStyle(num) {
 
 let globalData = null;
 
-fetch('links.json')
+fetch('links.json?v=' + Date.now())
   .then(res => res.json())
   .then(data => {
     globalData = data;
