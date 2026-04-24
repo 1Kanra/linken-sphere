@@ -63,34 +63,37 @@ function render() {
   // ======================
   // STYLE 2 (HELIX)
   // ======================
-  if (style === "style-2") {
-    const spacingY = 90;
+  const hexHeight = 100; // match your .hex-item size
+  const hexWidth = 100;
 
-    container.style.position = "relative";
+  const verticalStep = hexHeight * 0.75; // overlap to connect vertically
+  const horizontalOffset = hexWidth * 0.5; // interlock left/right
 
-    globalData.links.forEach((link, i) => {
-      const item = document.createElement("div");
-      item.className = "hex-item";
+  globalData.links.forEach((link, i) => {
+    const item = document.createElement("div");
+    item.className = "hex-item";
 
-      item.innerHTML = `
-      <div class="hex">
-        <img class="icon" src="${link.icon}" />
-      </div>
-    `;
+    item.innerHTML = `
+    <div class="hex">
+      <img class="icon" src="${link.icon}" />
+    </div>
+    <div class="label">${link.name}</div>
+  `;
 
-      item.onclick = () => window.open(link.url, "_blank");
+    item.onclick = () => window.open(link.url, "_blank");
 
-      const isRight = i % 2 === 1;
+    const isRight = i % 2 === 1;
 
-      item.style.position = "absolute";
-      item.style.top = `${i * spacingY}px`;
-      item.style.left = isRight ? "180px" : "40px";
+    item.style.position = "absolute";
 
-      container.appendChild(item);
-    });
+    // KEY: overlap instead of spacing
+    item.style.top = `${i * verticalStep}px`;
+    item.style.left = isRight
+      ? `${120 + horizontalOffset}px`
+      : `${120 - horizontalOffset}px`;
 
-    container.style.height = `${globalData.links.length * spacingY}px`;
-  }
+    container.appendChild(item);
+  });
 
   // ======================
   // STYLE 3 (PIE MENU)

@@ -65,28 +65,42 @@ body {
 
 .style-2 #links {
   position: relative;
-  width: 300px;
+  width: 260px;
   margin: 80px auto;
   height: 600px;
 }
 
-/* hex container */
+/* ===================== */
+/* HEX CONTAINER NODE    */
+/* ===================== */
+
 .hex-item {
   width: 100px;
   height: 100px;
-  cursor: pointer;
   position: absolute;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* hex shape */
+/* ===================== */
+/* HEX SHAPE             */
+/* ===================== */
+
 .hex {
   width: 100%;
   height: 100%;
   background: #444;
 
   clip-path: polygon(
-    50% 0%, 100% 25%, 100% 75%,
-    50% 100%, 0% 75%, 0% 25%
+    50% 0%, 
+    100% 25%, 
+    100% 75%,
+    50% 100%, 
+    0% 75%, 
+    0% 25%
   );
 
   display: flex;
@@ -96,12 +110,26 @@ body {
   transition: transform 0.2s ease;
 }
 
-/* hover effect */
+/* hover pop */
 .hex-item:hover .hex {
-  transform: scale(1.12);
+  transform: scale(1.08);
 }
 
-/* label hover */
+/* ===================== */
+/* ICON INSIDE HEX       */
+/* ===================== */
+
+.hex .icon {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+/* ===================== */
+/* LABEL (hover reveal)  */
+/* ===================== */
+
 .label {
   position: absolute;
   left: 110%;
@@ -114,11 +142,21 @@ body {
   opacity: 0;
   transition: 0.2s;
   white-space: nowrap;
+  font-size: 12px;
 }
 
 .hex-item:hover .label {
   opacity: 1;
   left: 120%;
+}
+
+/* ===================== */
+/* OPTIONAL: DEPTH FEEL  */
+/* ===================== */
+
+.hex-item:nth-child(even) {
+  transform: scale(0.98);
+  opacity: 0.95;
 }
 
 /* ===================== */
