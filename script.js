@@ -5,26 +5,26 @@ function setStyle(num) {
 
 let globalData = null;
 
-fetch('links.json?v=' + Date.now())
-  .then(res => res.json())
-  .then(data => {
+fetch("links.json?v=" + Date.now())
+  .then((res) => res.json())
+  .then((data) => {
     globalData = data;
     render();
   })
-  .catch(err => console.error("Failed to load JSON:", err));
+  .catch((err) => console.error("Failed to load JSON:", err));
 
 function render() {
   if (!globalData) return;
 
-  const container = document.getElementById('links');
+  const container = document.getElementById("links");
   container.innerHTML = ""; // clear old UI
 
   const style = document.body.className;
 
   // STYLE 1 — Linktree
   if (style === "style-1") {
-    globalData.links.forEach(link => {
-      const a = document.createElement('a');
+    globalData.links.forEach((link) => {
+      const a = document.createElement("a");
       a.href = link.url;
       a.textContent = link.name;
       a.target = "_blank";
@@ -34,16 +34,22 @@ function render() {
 
   // STYLE 2 — Hex grid
   if (style === "style-2") {
-    globalData.links.forEach(link => {
-      const item = document.createElement('div');
+    globalData.links.forEach((link, i) => {
+      const item = document.createElement("div");
       item.className = "hex-item";
 
       item.innerHTML = `
-        <div class="hex">${link.name[0]}</div>
-        <div class="label">${link.name}</div>
-      `;
+      <div class="hex">${link.name[0]}</div>
+      <div class="label">${link.name}</div>
+    `;
 
       item.onclick = () => window.open(link.url, "_blank");
+
+      // honeycomb offset (important)
+      if (i % 2 === 1) {
+        item.classList.add("offset");
+      }
+
       container.appendChild(item);
     });
   }
@@ -53,7 +59,7 @@ function render() {
     const center = document.getElementById("centerDisplay");
 
     globalData.links.forEach((link, i) => {
-      const item = document.createElement('div');
+      const item = document.createElement("div");
       item.className = "hex-item radial-item";
 
       item.innerHTML = `
