@@ -34,16 +34,8 @@ function render() {
 
   const style = document.body.className;
 
-  const center = document.getElementById("centerDisplay");
-
-  if (style === "style-3") {
-    center.style.display = "flex";
-  } else {
-    center.style.display = "none";
-  }
-
   // ======================
-  // STYLE 1
+  // STYLE 1 (LINKTREE)
   // ======================
   if (style === "style-1") {
     globalData.links.forEach((link) => {
@@ -52,75 +44,46 @@ function render() {
       a.target = "_blank";
 
       a.innerHTML = `
-      <img class="icon" src="${link.icon}" />
-      <span>${link.name}</span>
-    `;
+        <img class="icon" src="${link.icon}" />
+        <span>${link.name}</span>
+      `;
 
       container.appendChild(a);
     });
   }
 
   // ======================
-  // STYLE 2 (HELIX)
+  // STYLE 2 (HEX GRID / HELIX)
   // ======================
-  const hexHeight = 100; // match your .hex-item size
-  const hexWidth = 100;
+  if (style === "style-2") {
+    const hexHeight = 100;
+    const hexWidth = 100;
 
-  const verticalStep = hexHeight * 0.75; // overlap to connect vertically
-  const horizontalOffset = hexWidth * 0.5; // interlock left/right
-
-  globalData.links.forEach((link, i) => {
-    const item = document.createElement("div");
-    item.className = "hex-item";
-
-    item.innerHTML = `
-    <div class="hex">
-      <img class="icon" src="${link.icon}" />
-    </div>
-    <div class="label">${link.name}</div>
-  `;
-
-    item.onclick = () => window.open(link.url, "_blank");
-
-    const isRight = i % 2 === 1;
-
-    item.style.position = "absolute";
-
-    // KEY: overlap instead of spacing
-    item.style.top = `${i * verticalStep}px`;
-    item.style.left = isRight
-      ? `${120 + horizontalOffset}px`
-      : `${120 - horizontalOffset}px`;
-
-    container.appendChild(item);
-  });
-
-  // ======================
-  // STYLE 3 (PIE MENU)
-  // ======================
-  if (style === "style-3") {
-    const center = document.getElementById("centerDisplay");
-    const count = globalData.links.length;
-    const angleStep = 360 / count;
+    const verticalStep = hexHeight * 0.75;
+    const horizontalOffset = hexWidth * 0.5;
 
     globalData.links.forEach((link, i) => {
-      const slice = document.createElement("div");
-      slice.className = "pie-slice";
+      const item = document.createElement("div");
+      item.className = "hex-item";
 
-      slice.style.setProperty("--angle", i * angleStep + "deg");
+      item.innerHTML = `
+        <div class="hex">
+          <img class="icon" src="${link.icon}" />
+        </div>
+        <div class="label">${link.name}</div>
+      `;
 
-      slice.innerHTML = `
-      <img class="icon" src="${link.icon}" />
-    `;
+      item.onclick = () => window.open(link.url, "_blank");
 
-      slice.addEventListener("mouseenter", () => {
-        center.textContent = link.name;
-        center.style.background = getColor(i);
-      });
+      const isRight = i % 2 === 1;
 
-      slice.onclick = () => window.open(link.url, "_blank");
+      item.style.position = "absolute";
+      item.style.top = `${i * verticalStep}px`;
+      item.style.left = isRight
+        ? `${120 + horizontalOffset}px`
+        : `${120 - horizontalOffset}px`;
 
-      container.appendChild(slice);
+      container.appendChild(item);
     });
 
     container.style.position = "relative";

@@ -60,7 +60,7 @@ body {
 }
 
 /* ===================== */
-/* STYLE 2 (HELIX HEX)   */
+/* STYLE 2 (HEX GRID)    */
 /* ===================== */
 
 .style-2 #links {
@@ -70,14 +70,12 @@ body {
   height: 600px;
 }
 
-/* ===================== */
-/* HEX CONTAINER NODE    */
-/* ===================== */
-
-.hex-item {
+/* hex node */
+.style-2 .hex-item {
   width: 100px;
   height: 100px;
   position: absolute;
+
   cursor: pointer;
 
   display: flex;
@@ -85,11 +83,8 @@ body {
   justify-content: center;
 }
 
-/* ===================== */
-/* HEX SHAPE             */
-/* ===================== */
-
-.hex {
+/* hex shape */
+.style-2 .hex {
   width: 100%;
   height: 100%;
   background: #444;
@@ -111,26 +106,18 @@ body {
 }
 
 /* hover pop */
-.hex-item:hover .hex {
+.style-2 .hex-item:hover .hex {
   transform: scale(1.08);
 }
 
-/* ===================== */
-/* ICON INSIDE HEX       */
-/* ===================== */
-
-.hex .icon {
+/* icon inside hex */
+.style-2 .hex .icon {
   width: 30px;
   height: 30px;
-  object-fit: contain;
-  pointer-events: none;
 }
 
-/* ===================== */
-/* LABEL (hover reveal)  */
-/* ===================== */
-
-.label {
+/* label */
+.style-2 .label {
   position: absolute;
   left: 110%;
   top: 50%;
@@ -145,89 +132,14 @@ body {
   font-size: 12px;
 }
 
-.hex-item:hover .label {
+/* reveal label */
+.style-2 .hex-item:hover .label {
   opacity: 1;
   left: 120%;
 }
 
-/* ===================== */
-/* OPTIONAL: DEPTH FEEL  */
-/* ===================== */
-
-.hex-item:nth-child(even) {
+/* slight depth variation */
+.style-2 .hex-item:nth-child(even) {
   transform: scale(0.98);
   opacity: 0.95;
-}
-
-/* ===================== */
-/* STYLE 3 (PIE MENU)    */
-/* ===================== */
-
-.style-3 #links {
-  width: 320px;
-  height: 320px;
-  margin: 100px auto;
-
-  position: relative;
-  border-radius: 50%;
-}
-
-/* center display */
-#centerDisplay {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-
-  width: 120px;
-  height: 120px;
-
-  transform: translate(-50%, -50%);
-
-  background: #111;
-  border-radius: 50%;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-
-  z-index: 10;
-  transition: 0.3s;
-}
-
-/* pie slice */
-.pie-slice {
-  position: absolute;
-  width: 50%;
-  height: 50%;
-
-  top: 50%;
-  left: 50%;
-
-  transform-origin: 0% 0%;
-
-  clip-path: polygon(0 0, 100% 0, 100% 100%);
-
-  transform: rotate(var(--angle)) skewY(-60deg);
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  cursor: pointer;
-
-  transition: transform 0.2s ease;
-}
-
-/* hover animation */
-.pie-slice:hover {
-  transform: rotate(var(--angle)) skewY(-60deg) scale(1.05);
-}
-
-/* icon inside pie */
-.pie-slice .icon {
-  width: 28px;
-  height: 28px;
-
-  transform: skewY(60deg) rotate(calc(-1 * var(--angle)));
 }
