@@ -58,27 +58,22 @@ function render() {
   if (style === "style-2") {
   const container = document.getElementById("links");
 
-  const size = 100;
-
-  // REAL hex math
-  const colStep = size * 0.75;
-  const rowStep = size * 0.866; // sqrt(3)/2
-
-  const cols = 3;
+  const radius = 60;     // horizontal wave strength
+  const spacing = 80;    // vertical flow speed
 
   globalData.links.forEach((link, i) => {
-    const row = Math.floor(i / cols);
-    const col = i % cols;
-
     const item = document.createElement("div");
     item.className = "hex-item";
 
-    // IMPORTANT: true hex offset (this creates interlock)
-    const offsetX = row % 2 === 0 ? 0 : colStep / 2;
+    const t = i;
+
+    // HELIX MATH (this is the key)
+    const x = Math.sin(t * 0.8) * radius;
+    const y = t * spacing;
 
     item.style.position = "absolute";
-    item.style.top = `${row * rowStep}px`;
-    item.style.left = `${col * colStep + offsetX + 120}px`;
+    item.style.left = `${140 + x}px`;
+    item.style.top = `${y}px`;
 
     item.innerHTML = `
       <div class="hex">
