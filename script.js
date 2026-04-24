@@ -34,25 +34,34 @@ function render() {
 
   // STYLE 2 — Hex grid
   if (style === "style-2") {
-    globalData.links.forEach((link, i) => {
-      const item = document.createElement("div");
-      item.className = "hex-item";
+  const container = document.getElementById("links");
+  container.innerHTML = "";
 
-      item.innerHTML = `
+  const spacingY = 90; // vertical spacing
+
+  globalData.links.forEach((link, i) => {
+    const item = document.createElement("div");
+    item.className = "hex-item";
+
+    item.innerHTML = `
       <div class="hex">${link.name[0]}</div>
       <div class="label">${link.name}</div>
     `;
 
-      item.onclick = () => window.open(link.url, "_blank");
+    item.onclick = () => window.open(link.url, "_blank");
 
-      // honeycomb offset (important)
-      if (i % 2 === 1) {
-        item.classList.add("offset");
-      }
+    const isRight = i % 2 === 1;
 
-      container.appendChild(item);
-    });
-  }
+    item.style.position = "absolute";
+    item.style.top = `${i * spacingY}px`;
+    item.style.left = isRight ? "180px" : "40px";
+
+    container.appendChild(item);
+  });
+
+  container.style.position = "relative";
+  container.style.height = `${globalData.links.length * spacingY}px`;
+}
 
   // STYLE 3 — Radial hover system
   if (style === "style-3") {
