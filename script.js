@@ -56,36 +56,42 @@ function render() {
   // STYLE 2 (HEX GRID / HELIX)
   // ======================
   if (style === "style-2") {
-    const hexHeight = 100;
-    const hexWidth = 100;
+  const container = document.getElementById("links");
 
-    const verticalStep = hexHeight * 0.75;
-    const horizontalOffset = hexWidth * 0.5;
+  const size = 100;
 
-    globalData.links.forEach((link, i) => {
-      const item = document.createElement("div");
-      item.className = "hex-item";
+  // REAL hex math
+  const colStep = size * 0.75;
+  const rowStep = size * 0.866; // sqrt(3)/2
 
-      item.innerHTML = `
-        <div class="hex">
-          <img class="icon" src="${link.icon}" />
-        </div>
-        <div class="label">${link.name}</div>
-      `;
+  const cols = 3;
 
-      item.onclick = () => window.open(link.url, "_blank");
+  globalData.links.forEach((link, i) => {
+    const row = Math.floor(i / cols);
+    const col = i % cols;
 
-      const isRight = i % 2 === 1;
+    const item = document.createElement("div");
+    item.className = "hex-item";
 
-      item.style.position = "absolute";
-      item.style.top = `${i * verticalStep}px`;
-      item.style.left = isRight
-        ? `${120 + horizontalOffset}px`
-        : `${120 - horizontalOffset}px`;
+    // IMPORTANT: true hex offset (this creates interlock)
+    const offsetX = row % 2 === 0 ? 0 : colStep / 2;
 
-      container.appendChild(item);
-    });
+    item.style.position = "absolute";
+    item.style.top = `${row * rowStep}px`;
+    item.style.left = `${col * colStep + offsetX + 120}px`;
 
-    container.style.position = "relative";
-  }
+    item.innerHTML = `
+      <div class="hex">
+        <img class="icon" src="${link.icon}" />
+      </div>
+      <div class="label">${link.name}</div>
+    `;
+
+    item.onclick = () => window.open(link.url, "_blank");
+
+    container.appendChild(item);
+  });
+
+  container.style.position = "relative";
+}
 }
