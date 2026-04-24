@@ -56,37 +56,41 @@ function render() {
   // STYLE 2 (HEX GRID / HELIX)
   // ======================
   if (style === "style-2") {
-  const container = document.getElementById("links");
+    const container = document.getElementById("links");
+    container.innerHTML = "";
 
-  const radius = 60;     // horizontal wave strength
-  const spacing = 80;    // vertical flow speed
+    // ONLY THESE NODES EXIST (ACTIVE PATH)
+    const activeNodes = [2, 4, 8, 10];
 
-  globalData.links.forEach((link, i) => {
-    const item = document.createElement("div");
-    item.className = "hex-item";
+    const spacing = 90;
+    const amplitude = 70;
 
-    const t = i;
+    activeNodes.forEach((node, i) => {
+      const link = globalData.links.find((_, idx) => idx === i);
 
-    // HELIX MATH (this is the key)
-    const x = Math.sin(t * 0.8) * radius;
-    const y = t * spacing;
+      const item = document.createElement("div");
+      item.className = "hex-item";
 
-    item.style.position = "absolute";
-    item.style.left = `${140 + x}px`;
-    item.style.top = `${y}px`;
+      // HELIX POSITIONING
+      const x = Math.sin(i * 1.2) * amplitude;
+      const y = i * spacing;
 
-    item.innerHTML = `
+      item.style.position = "absolute";
+      item.style.left = `${150 + x}px`;
+      item.style.top = `${y}px`;
+
+      item.innerHTML = `
       <div class="hex">
         <img class="icon" src="${link.icon}" />
       </div>
       <div class="label">${link.name}</div>
     `;
 
-    item.onclick = () => window.open(link.url, "_blank");
+      item.onclick = () => window.open(link.url, "_blank");
 
-    container.appendChild(item);
-  });
+      container.appendChild(item);
+    });
 
-  container.style.position = "relative";
-}
+    container.style.position = "relative";
+  }
 }
