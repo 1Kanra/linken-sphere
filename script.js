@@ -16,6 +16,20 @@ fetch("links.json?v=" + Date.now())
 function render() {
   if (!globalData) return;
 
+  function getColor(i) {
+  const colors = [
+    "#ff4d4d",
+    "#ff914d",
+    "#ffd24d",
+    "#7dff4d",
+    "#4dffea",
+    "#4d7dff",
+    "#b84dff",
+    "#ff4dd2"
+  ];
+  return colors[i % colors.length];
+}
+
   const container = document.getElementById("links");
   container.innerHTML = ""; // clear old UI
 
