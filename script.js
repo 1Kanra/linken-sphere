@@ -1,22 +1,4 @@
-function setStyle(num) {
-  document.body.className = "style-" + num;
-  render(); // re-render when style changes
-}
-
-let globalData = null;
-
-fetch("links.json?v=" + Date.now())
-  .then((res) => res.json())
-  .then((data) => {
-    globalData = data;
-    render();
-  })
-  .catch((err) => console.error("Failed to load JSON:", err));
-
-function render() {
-  if (!globalData) return;
-
-  function getColor(i) {
+function getColor(i) {
   const colors = [
     "#ff4d4d",
     "#ff914d",
@@ -30,14 +12,33 @@ function render() {
   return colors[i % colors.length];
 }
 
+function setStyle(num) {
+  document.body.className = "style-" + num;
+  render();
+}
+
+let globalData = null;
+
+fetch("links.json?v=" + Date.now())
+  .then(res => res.json())
+  .then(data => {
+    globalData = data;
+    render();
+  });
+
+function render() {
+  if (!globalData) return;
+
   const container = document.getElementById("links");
-  container.innerHTML = ""; // clear old UI
+  container.innerHTML = "";
 
   const style = document.body.className;
 
-  // STYLE 1 — Linktree
+  // ======================
+  // STYLE 1
+  // ======================
   if (style === "style-1") {
-    globalData.links.forEach((link) => {
+    globalData.links.forEach(link => {
       const a = document.createElement("a");
       a.href = link.url;
       a.textContent = link.name;
@@ -46,21 +47,22 @@ function render() {
     });
   }
 
-  // STYLE 2 — Hex grid
+  // ======================
+  // STYLE 2 (HELIX)
+  // ======================
   if (style === "style-2") {
-    const container = document.getElementById("links");
-    container.innerHTML = "";
+    const spacingY = 90;
 
-    const spacingY = 90; // vertical spacing
+    container.style.position = "relative";
 
     globalData.links.forEach((link, i) => {
       const item = document.createElement("div");
       item.className = "hex-item";
 
       item.innerHTML = `
-      <div class="hex">${link.name[0]}</div>
-      <div class="label">${link.name}</div>
-    `;
+        <div class="hex">${link.name[0]}</div>
+        <div class="label">${link.name}</div>
+      `;
 
       item.onclick = () => window.open(link.url, "_blank");
 
@@ -73,15 +75,13 @@ function render() {
       container.appendChild(item);
     });
 
-    container.style.position = "relative";
     container.style.height = `${globalData.links.length * spacingY}px`;
   }
 
-  // STYLE 3 — Radial hover system
+  // ======================
+  // STYLE 3 (PIE MENU)
+  // ======================
   if (style === "style-3") {
-    const container = document.getElementById("links");
-    container.innerHTML = "";
-
     const center = document.getElementById("centerDisplay");
     const count = globalData.links.length;
     const angleStep = 360 / count;
@@ -90,20 +90,14 @@ function render() {
       const slice = document.createElement("div");
       slice.className = "pie-slice";
 
-      const start = i * angleStep;
-      const end = angleStep;
+      slice.style.setProperty("--angle", i * angleStep + "deg");
 
-      slice.style.setProperty("--angle", start + "deg");
-
-      // base color per slice (placeholder theme)
       const color = getColor(i);
-
       slice.dataset.color = color;
-      slice.dataset.name = link.name;
 
       slice.addEventListener("mouseenter", () => {
         center.textContent = link.name;
-        center.style.background = slice.dataset.color;
+        center.style.background = color;
       });
 
       slice.addEventListener("mouseleave", () => {
