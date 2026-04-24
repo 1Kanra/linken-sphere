@@ -1,14 +1,32 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>My Links</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Link Sphere</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <div class="container">
-    <h1>@niazmarudo</h1>
-    <div id="links"></div>
+
+<body class="style-1">
+
+  <!-- STYLE SWITCHER -->
+  <div class="switcher">
+    <button onclick="setStyle(1)">Style 1</button>
+    <button onclick="setStyle(2)">Style 2</button>
+    <button onclick="setStyle(3)">Style 3</button>
   </div>
+
+  <!-- PROFILE SECTION (optional but good for client demo) -->
+  <div class="profile">
+    <h1>@niazmarudo</h1>
+    <p>Your links in one place</p>
+  </div>
+
+  <!-- MAIN LINK CONTAINER -->
+  <div id="links"></div>
+
+  <!-- CENTER DISPLAY (used in radial style) -->
+  <div id="centerDisplay"></div>
 
   <script src="script.js"></script>
 </body>
