@@ -34,54 +34,74 @@ function render() {
 
   // STYLE 2 — Hex grid
   if (style === "style-2") {
-  const container = document.getElementById("links");
-  container.innerHTML = "";
+    const container = document.getElementById("links");
+    container.innerHTML = "";
 
-  const spacingY = 90; // vertical spacing
+    const spacingY = 90; // vertical spacing
 
-  globalData.links.forEach((link, i) => {
-    const item = document.createElement("div");
-    item.className = "hex-item";
+    globalData.links.forEach((link, i) => {
+      const item = document.createElement("div");
+      item.className = "hex-item";
 
-    item.innerHTML = `
+      item.innerHTML = `
       <div class="hex">${link.name[0]}</div>
       <div class="label">${link.name}</div>
     `;
 
-    item.onclick = () => window.open(link.url, "_blank");
-
-    const isRight = i % 2 === 1;
-
-    item.style.position = "absolute";
-    item.style.top = `${i * spacingY}px`;
-    item.style.left = isRight ? "180px" : "40px";
-
-    container.appendChild(item);
-  });
-
-  container.style.position = "relative";
-  container.style.height = `${globalData.links.length * spacingY}px`;
-}
-
-  // STYLE 3 — Radial hover system
-  if (style === "style-3") {
-    const center = document.getElementById("centerDisplay");
-
-    globalData.links.forEach((link, i) => {
-      const item = document.createElement("div");
-      item.className = "hex-item radial-item";
-
-      item.innerHTML = `
-        <div class="hex">${link.name[0]}</div>
-      `;
-
       item.onclick = () => window.open(link.url, "_blank");
 
-      item.addEventListener("mouseenter", () => {
-        center.textContent = link.name;
-      });
+      const isRight = i % 2 === 1;
+
+      item.style.position = "absolute";
+      item.style.top = `${i * spacingY}px`;
+      item.style.left = isRight ? "180px" : "40px";
 
       container.appendChild(item);
     });
+
+    container.style.position = "relative";
+    container.style.height = `${globalData.links.length * spacingY}px`;
+  }
+
+  // STYLE 3 — Radial hover system
+  if (style === "style-3") {
+    const container = document.getElementById("links");
+    container.innerHTML = "";
+
+    const center = document.getElementById("centerDisplay");
+    const count = globalData.links.length;
+    const angleStep = 360 / count;
+
+    globalData.links.forEach((link, i) => {
+      const slice = document.createElement("div");
+      slice.className = "pie-slice";
+
+      const start = i * angleStep;
+      const end = angleStep;
+
+      slice.style.setProperty("--angle", start + "deg");
+
+      // base color per slice (placeholder theme)
+      const color = getColor(i);
+
+      slice.dataset.color = color;
+      slice.dataset.name = link.name;
+
+      slice.addEventListener("mouseenter", () => {
+        center.textContent = link.name;
+        center.style.background = slice.dataset.color;
+      });
+
+      slice.addEventListener("mouseleave", () => {
+        center.textContent = "Hover a link";
+        center.style.background = "#111";
+      });
+
+      slice.onclick = () => window.open(link.url, "_blank");
+
+      container.appendChild(slice);
+    });
+
+    container.style.position = "relative";
   }
 }

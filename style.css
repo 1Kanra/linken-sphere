@@ -5,21 +5,6 @@ body {
   text-align: center;
 }
 
-.container {
-  margin-top: 50px;
-}
-
-a {
-  display: block;
-  margin: 10px auto;
-  padding: 12px;
-  width: 200px;
-  background: #333;
-  color: white;
-  text-decoration: none;
-  border-radius: 8px;
-}
-
 .switcher {
   position: fixed;
   top: 10px;
@@ -31,6 +16,10 @@ a {
   padding: 6px 10px;
 }
 
+/* ===================== */
+/* STYLE 1 (link list)   */
+/* ===================== */
+
 .style-1 a {
   display: block;
   margin: 10px auto;
@@ -38,47 +27,108 @@ a {
   width: 200px;
   background: #333;
   border-radius: 8px;
+  color: white;
+  text-decoration: none;
 }
+
+/* ===================== */
+/* STYLE 2 (HELIX HEX)   */
+/* ===================== */
 
 .style-2 #links {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
-  max-width: 400px;
-  margin: 80px auto;
-}
-
-/* hex shape */
-.h
-
-.style-3 #links {
   position: relative;
   width: 300px;
-  height: 300px;
-  margin: 100px auto;
+  margin: 80px auto;
+  height: 600px;
 }
 
-.style-3 .hex-item {
-  position: absolute;
-  top: 50%;
-  left: 50%;
+/* hex item container */
+.hex-item {
+  width: 100px;
+  height: 100px;
+  cursor: pointer;
 }
 
-/* position items in circle */
-.style-3 .hex-item:nth-child(1) { transform: rotate(0deg) translate(120px) rotate(0deg); }
-.style-3 .hex-item:nth-child(2) { transform: rotate(90deg) translate(120px) rotate(-90deg); }
-.style-3 .hex-item:nth-child(3) { transform: rotate(180deg) translate(120px) rotate(-180deg); }
-.style-3 .hex-item:nth-child(4) { transform: rotate(270deg) translate(120px) rotate(-270deg); }
+/* HEX SHAPE (POINT DOWN) */
+.hex {
+  width: 100%;
+  height: 100%;
+  background: #444;
 
-/* center display */
-.style-3::after {
-  content: "Hover a link";
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+
+  transition: transform 0.2s;
+}
+
+.hex-item:hover .hex {
+  transform: scale(1.1);
+}
+
+/* label */
+.label {
   position: absolute;
+  left: 110%;
   top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateY(-50%);
   background: #222;
-  padding: 20px;
+  padding: 5px 8px;
+  opacity: 0;
+  transition: 0.2s;
+}
+
+.hex-item:hover .label {
+  opacity: 1;
+  left: 120%;
+}
+
+/* ===================== */
+/* STYLE 3 (radial)      */
+/* ===================== */
+
+.style-3 #links {
+  width: 320px;
+  height: 320px;
+  margin: 100px auto;
+  position: relative;
   border-radius: 50%;
+}
+
+/* center (dynamic background) */
+#centerDisplay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 120px;
+  height: 120px;
+  transform: translate(-50%, -50%);
+  background: #111;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  z-index: 10;
+  transition: 0.3s;
+}
+
+/* slice container */
+.pie-slice {
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  top: 50%;
+  left: 50%;
+  transform-origin: 0% 0%;
+
+  /* wedge shape */
+  clip-path: polygon(0 0, 100% 0, 100% 100%);
+
+  transform: rotate(var(--angle)) skewY(-60deg);
+
+  cursor: pointer;
 }
