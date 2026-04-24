@@ -5,32 +5,58 @@ body {
   text-align: center;
 }
 
+/* ===================== */
+/* GLOBAL ICON STYLE     */
+/* ===================== */
+
+.icon {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+/* ===================== */
+/* SWITCHER              */
+/* ===================== */
+
 .switcher {
   position: fixed;
   top: 10px;
   right: 10px;
+  z-index: 999;
 }
 
 .switcher button {
   margin: 2px;
   padding: 6px 10px;
+  cursor: pointer;
 }
 
 /* ===================== */
-/* STYLE 1 (link list)   */
+/* STYLE 1 (LINKTREE)    */
 /* ===================== */
 
-.style-1 a {
+.style-1 #links a {
   display: flex;
   align-items: center;
   gap: 10px;
+
   margin: 10px auto;
   padding: 12px;
   width: 220px;
+
   background: #333;
   border-radius: 8px;
+
   color: white;
   text-decoration: none;
+
+  transition: transform 0.2s ease;
+}
+
+.style-1 #links a:hover {
+  transform: scale(1.05);
 }
 
 /* ===================== */
@@ -44,18 +70,20 @@ body {
   height: 600px;
 }
 
-/* hex item container */
+/* hex container */
 .hex-item {
   width: 100px;
   height: 100px;
   cursor: pointer;
+  position: absolute;
 }
 
-/* HEX SHAPE (POINT DOWN) */
+/* hex shape */
 .hex {
   width: 100%;
   height: 100%;
   background: #444;
+
   clip-path: polygon(
     50% 0%, 100% 25%, 100% 75%,
     50% 100%, 0% 75%, 0% 25%
@@ -64,27 +92,28 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+
+  transition: transform 0.2s ease;
 }
 
-.hex .icon {
-  width: 28px;
-  height: 28px;
-}
-
+/* hover effect */
 .hex-item:hover .hex {
-  transform: scale(1.1);
+  transform: scale(1.12);
 }
 
-/* label */
+/* label hover */
 .label {
   position: absolute;
   left: 110%;
   top: 50%;
   transform: translateY(-50%);
+
   background: #222;
   padding: 5px 8px;
+
   opacity: 0;
   transition: 0.2s;
+  white-space: nowrap;
 }
 
 .hex-item:hover .label {
@@ -93,51 +122,71 @@ body {
 }
 
 /* ===================== */
-/* STYLE 3 (radial)      */
+/* STYLE 3 (PIE MENU)    */
 /* ===================== */
 
 .style-3 #links {
   width: 320px;
   height: 320px;
   margin: 100px auto;
+
   position: relative;
   border-radius: 50%;
 }
 
-/* center (dynamic background) */
+/* center display */
 #centerDisplay {
   position: absolute;
   top: 50%;
   left: 50%;
+
   width: 120px;
   height: 120px;
+
   transform: translate(-50%, -50%);
+
   background: #111;
   border-radius: 50%;
+
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
+
   z-index: 10;
   transition: 0.3s;
 }
 
-/* slice container */
+/* pie slice */
 .pie-slice {
   position: absolute;
   width: 50%;
   height: 50%;
+
   top: 50%;
   left: 50%;
+
   transform-origin: 0% 0%;
+
   clip-path: polygon(0 0, 100% 0, 100% 100%);
+
   transform: rotate(var(--angle)) skewY(-60deg);
 
   display: flex;
   align-items: center;
   justify-content: center;
+
+  cursor: pointer;
+
+  transition: transform 0.2s ease;
 }
 
+/* hover animation */
+.pie-slice:hover {
+  transform: rotate(var(--angle)) skewY(-60deg) scale(1.05);
+}
+
+/* icon inside pie */
 .pie-slice .icon {
   width: 28px;
   height: 28px;

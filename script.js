@@ -34,6 +34,14 @@ function render() {
 
   const style = document.body.className;
 
+  const center = document.getElementById("centerDisplay");
+
+  if (style === "style-3") {
+    center.style.display = "flex";
+  } else {
+    center.style.display = "none";
+  }
+
   // ======================
   // STYLE 1
   // ======================
