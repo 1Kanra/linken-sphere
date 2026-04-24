@@ -56,41 +56,75 @@ function render() {
   // STYLE 2 (HEX GRID / HELIX)
   // ======================
   if (style === "style-2") {
-    const container = document.getElementById("links");
-    container.innerHTML = "";
+  const container = document.getElementById("links");
+  container.innerHTML = "";
 
-    // ONLY THESE NODES EXIST (ACTIVE PATH)
-    const activeNodes = [2, 4, 8, 10];
+  const cols = 4;
+  const rows = 6;
 
-    const spacing = 90;
-    const amplitude = 70;
+  // ======================
+  // 1. BUILD GRID (OK)
+  // ======================
+  const grid = [];
+  let id = 1;
 
-    activeNodes.forEach((node, i) => {
-      const link = globalData.links.find((_, idx) => idx === i);
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      grid.push({ id: id++, row: r, col: c });
+    }
+  }
 
-      const item = document.createElement("div");
-      item.className = "hex-item";
+  // ======================
+  // 2. TRUE HELIX PATTERN
+  // (zigzag wave across rows)
+  // ======================
+  const activeSet = new Set();
 
-      // HELIX POSITIONING
-      const x = Math.sin(i * 1.2) * amplitude;
-      const y = i * spacing;
+  for (let r = 0; r < rows; r++) {
+    const c = (r % 2 === 0) ? 1 : 2; // real zigzag shift
+    const id = r * cols + c + 1;
+    activeSet.add(id);
+  }
 
-      item.style.position = "absolute";
-      item.style.left = `${150 + x}px`;
-      item.style.top = `${y}px`;
+  // ======================
+  // 3. HEX GEOMETRY
+  // ======================
+  const hexSize = 100;
+  const colStep = hexSize * 0.75;
+  const rowStep = hexSize * 0.866;
 
-      item.innerHTML = `
+  // ======================
+  // 4. STABLE LINK MAPPING
+  // ======================
+  let linkIndex = 0;
+
+  grid.forEach((node) => {
+    if (!activeSet.has(node.id)) return;
+
+    const link = globalData.links[linkIndex % globalData.links.length];
+    linkIndex++;
+
+    const item = document.createElement("div");
+    item.className = "hex-item";
+
+    const xOffset = node.row % 2 ? colStep / 2 : 0;
+
+    item.style.position = "absolute";
+    item.style.left = `${node.col * colStep + xOffset + 120}px`;
+    item.style.top = `${node.row * rowStep}px`;
+
+    item.innerHTML = `
       <div class="hex">
         <img class="icon" src="${link.icon}" />
       </div>
       <div class="label">${link.name}</div>
     `;
 
-      item.onclick = () => window.open(link.url, "_blank");
+    item.onclick = () => window.open(link.url, "_blank");
 
-      container.appendChild(item);
-    });
+    container.appendChild(item);
+  });
 
-    container.style.position = "relative";
-  }
+  container.style.position = "relative";
+}
 }
