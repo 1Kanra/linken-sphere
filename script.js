@@ -7,7 +7,7 @@ function getColor(i) {
     "#4dffea",
     "#4d7dff",
     "#b84dff",
-    "#ff4dd2"
+    "#ff4dd2",
   ];
   return colors[i % colors.length];
 }
@@ -20,8 +20,8 @@ function setStyle(num) {
 let globalData = null;
 
 fetch("links.json?v=" + Date.now())
-  .then(res => res.json())
-  .then(data => {
+  .then((res) => res.json())
+  .then((data) => {
     globalData = data;
     render();
   });
@@ -38,11 +38,16 @@ function render() {
   // STYLE 1
   // ======================
   if (style === "style-1") {
-    globalData.links.forEach(link => {
+    globalData.links.forEach((link) => {
       const a = document.createElement("a");
       a.href = link.url;
-      a.textContent = link.name;
       a.target = "_blank";
+
+      a.innerHTML = `
+      <img class="icon" src="${link.icon}" />
+      <span>${link.name}</span>
+    `;
+
       container.appendChild(a);
     });
   }
@@ -60,9 +65,10 @@ function render() {
       item.className = "hex-item";
 
       item.innerHTML = `
-        <div class="hex">${link.name[0]}</div>
-        <div class="label">${link.name}</div>
-      `;
+      <div class="hex">
+        <img class="icon" src="${link.icon}" />
+      </div>
+    `;
 
       item.onclick = () => window.open(link.url, "_blank");
 
@@ -92,17 +98,13 @@ function render() {
 
       slice.style.setProperty("--angle", i * angleStep + "deg");
 
-      const color = getColor(i);
-      slice.dataset.color = color;
+      slice.innerHTML = `
+      <img class="icon" src="${link.icon}" />
+    `;
 
       slice.addEventListener("mouseenter", () => {
         center.textContent = link.name;
-        center.style.background = color;
-      });
-
-      slice.addEventListener("mouseleave", () => {
-        center.textContent = "Hover a link";
-        center.style.background = "#111";
+        center.style.background = getColor(i);
       });
 
       slice.onclick = () => window.open(link.url, "_blank");
